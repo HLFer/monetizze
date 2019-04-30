@@ -5,23 +5,23 @@ include_once('megasena.php');
 //Header
 echo '<body>
 <div class="svg-container">
-  <!-- I crated SVG with: https://codepen.io/anthonydugois/pen/mewdyZ -->
   <svg viewbox="0 0 800 400" class="svg">
     <path id="curve" fill="#50c6d8" d="M 800 300 Q 400 350 0 300 L 0 0 L 800 0 L 800 300 Z">
     </path>
   </svg>
 </div>
+<br><br><div align="center"><h1>Teste Monetizze</h1></div><br><br>
 ';
-$jogo = new MegaSena(8, 15);
+$jogo = new MegaSena(6, 20);
 $jogo->gerarJogos();
-$jogo->sortear();
-echo $jogo->resposta();
-
-echo '</body>';
+$jogo->sorteio();
+echo $jogo->View();
 
 
 //Footer
-echo "<style>
+echo "</body><footer>Henrique L. Fernandes</footer>
+
+<style>
 @import 'https://fonts.googleapis.com/css?family=Ubuntu:300, 400, 500, 700';
 
 *, *:after, *:before {
@@ -100,4 +100,8 @@ small {
     color: inherit;
   }
 }
+table, td, th {
+  border: 1px solid black;
+  background-color: green;
+} 
 </style>";

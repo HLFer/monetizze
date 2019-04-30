@@ -7,14 +7,14 @@ class MegaSena{
     //Questão 3)
     //Método construtor recebendo 2 parametros
     function __construct($qtd_dezenas, $total_jogos) {
-        $this->setQntDezenas($qtd_dezenas);
+        $this->setDezenas($qtd_dezenas);
         $this->setTotalJogos($total_jogos);
     }
     // Início - Getters & Setters
-    public function getQntDezenas() { 
+    public function getDezenas() { 
         return $this->qtd_dezenas; 
     }
-    public function setQntDezenas($qtd_dezenas) {
+    public function setDezenas($qtd_dezenas) {
         $this->qtd_dezenas = $qtd_dezenas; 
     }
     public function getResultado() { 
@@ -39,7 +39,7 @@ class MegaSena{
     
     
     // Metodos
-    private function gerarDezenas($qtd_dezenas) {
+    private function geradorDezenas($qtd_dezenas) {
         $arr = array();
         for ($i=0; $i<$qtd_dezenas; $i++) {
             $arr[] = $this->getRandomInt(1,60,$arr);
@@ -60,10 +60,11 @@ class MegaSena{
             for ($i=0; $i<count($arr);$i++) $str .= $arr[$i] .",";
             return substr($str, 0,-1) ."]";
         } else {
-            return "Não é um array";
+            //Quando não é um vetor
+            return false;;
         }
     }
-    private function verificarAcertos($resultado, $jogo) {
+    private function Acertos($resultado, $jogo) {
         $acertos = 0;
         if (!is_array($resultado) || !is_array($jogo)) return $acertos;
         $size = count($jogo);
@@ -75,21 +76,22 @@ class MegaSena{
     public function gerarJogos() {
         $arrJogos = array();
         for ($i=0; $i<$this->getTotalJogos(); $i++) {
-            $arrJogos[] = $this->gerarDezenas($this->getQntDezenas());
+            $arrJogos[] = $this->geradorDezenas($this->getDezenas());
         }
         $this->setJogos($arrJogos);
     }
-    public function sortear() {
-        $this->setResultado($this->gerarDezenas(6));
+    public function sorteio() {
+        $this->setResultado($this->geradorDezenas(6));
     }
-    public function resposta() {
+    public function View() {
         $html = "
+        <hr>
         <div align='center'>
             <table>
                 <thead>
                     <tr>
-                        <th>Resultado do Sorteio:</th>
-                        <th>". $this->imprimirArray($this->resultado) ."</th>
+                        <th align='center'>Resultado do Sorteio:</th>
+                        <th align='center'>". $this->imprimirArray($this->resultado) ."</th>
                     </tr>
                     <tr>
                         <th>Jogos</th>
@@ -97,15 +99,15 @@ class MegaSena{
                     </tr>
                 </thead>
             <tbody>
-        </div>";
+       ";
         for ($i=0; $i<$this->getTotalJogos(); $i++) {
             $html .= "
                 <tr>
-                    <td>". $this->imprimirArray($this->getJogos($i)) ."</td>
-                    <td>". $this->verificarAcertos($this->resultado, $this->getJogos($i)) ."</td>
+                    <td align='center'>". $this->imprimirArray($this->getJogos($i)) ."</td>
+                    <td align='center'>". $this->Acertos($this->resultado, $this->getJogos($i)) ."</td>
                 </tr>";
         }
-        $html .= "</tbody></table>";
+        $html .= "</tbody></table> </div><hr>";
 		return $html;
     }
 }
